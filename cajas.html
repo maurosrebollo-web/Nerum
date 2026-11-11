@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Cajitas - Nerum</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="header-banner-fixed">
+        <div class="banner-container">
+            <img id="img-site-banner" src="banner_nerum.png" alt="Nerum Banner">
+            <nav class="nav-overlay">
+                <a href="index.html">Inicio</a>
+                <a href="velas.html">Velas</a>
+                <a href="cajas.html" style="color: var(--color-primary); font-weight: bold;">Cajitas</a>
+                <a href="index.html#contacto">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="section container">
+        <h2 class="section-title">Catálogo de Cajitas Artesanales</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 40px;">Diseños y tamaños personalizados para regalos y arreglos.</p>
+        <div class="services-grid" id="contenedor-cajas"></div>
+    </section>
+
+    <section class="section bg-light">
+        <div class="container">
+            <div class="booking-wrapper">
+                <div class="booking-box" style="max-width: 800px;">
+                    <h3>Realizar Encargo de Cajita a Medida</h3>
+                    <form id="form-encargo-caja">
+                        <div class="form-group">
+                            <label>Diseño o Estilo de Cajita:</label>
+                            <select id="modelo-caja" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tamaño Personalizado:</label>
+                            <select id="tamano-caja" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Diseño:</label>
+                            <select id="diseno-caja" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Color:</label>
+                            <select id="color-caja" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Caja:</label>
+                            <select id="tipo-caja" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Cantidad:</label>
+                            <input type="number" id="cantidad-caja" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre Completo:</label>
+                            <input type="text" id="nombre-caja" placeholder="Tu nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono o WhatsApp:</label>
+                            <input type="text" id="contacto-caja" placeholder="Ej: 097132308" required>
+                        </div>
+                        <button type="submit" class="btn-primary btn-block">Enviar Encargo de Cajita</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content"><p>&copy; 2026 Nerum - Cajitas Artesanales</p></div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

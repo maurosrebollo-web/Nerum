@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Velas - Nerum</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="header-banner-fixed">
+        <div class="banner-container">
+            <img id="img-site-banner" src="banner_nerum.png" alt="Nerum Banner">
+            <nav class="nav-overlay">
+                <a href="index.html">Inicio</a>
+                <a href="velas.html" style="color: var(--color-primary); font-weight: bold;">Velas</a>
+                <a href="cajas.html">Cajitas</a>
+                <a href="index.html#contacto">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="section container">
+        <h2 class="section-title">Catálogo de Velas Artesanales</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 40px;">Modelos disponibles a contra pedido. Elige color y fragancia a tu gusto.</p>
+        <div class="services-grid" id="contenedor-velas"></div>
+    </section>
+
+    <section class="section bg-light">
+        <div class="container">
+            <div class="booking-wrapper">
+                <div class="booking-box" style="max-width: 800px;">
+                    <h3>Realizar Encargo de Vela a Medida</h3>
+                    <form id="form-encargo-vela">
+                        <div class="form-group">
+                            <label>Modelo de Vela:</label>
+                            <select id="modelo-vela" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Color Elegido:</label>
+                            <select id="color-vela" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Fragancia Elegida:</label>
+                            <select id="fragancia-vela" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Cantidad:</label>
+                            <input type="number" id="cantidad-vela" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre Completo:</label>
+                            <input type="text" id="nombre-vela" placeholder="Tu nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono o WhatsApp:</label>
+                            <input type="text" id="contacto-vela" placeholder="Ej: 097132308" required>
+                        </div>
+                        <button type="submit" class="btn-primary btn-block">Enviar Encargo de Vela</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content"><p>&copy; 2026 Nerum - Velas Artesanales</p></div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

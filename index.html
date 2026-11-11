@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nerum - Velas y Cajitas Artesanales</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="header-banner-fixed">
+        <div class="banner-container">
+            <img id="img-site-banner" src="banner_nerum.png" alt="Nerum Banner">
+            <nav class="nav-overlay">
+                <a href="index.html" style="color: var(--color-primary); font-weight: bold;">Inicio</a>
+                <a href="velas.html">Velas</a>
+                <a href="cajas.html">Cajitas</a>
+                <a href="#contacto">Contacto</a>
+                <a href="admin.html">Admin</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="section container">
+        <h2 class="section-title">Elige una Categoría</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 40px; font-size: 1.1rem;">Selecciona el producto artesanal que deseas explorar y personalizar a contra pedido.</p>
+        
+        <div class="home-grid">
+            <div class="service-card" onclick="location.href='velas.html'" style="cursor: pointer;">
+                <img id="img-site-home-velas" src="banner_nerum.png" style="object-position: left bottom; height: 240px; object-fit: cover;" alt="Velas Artesanales Nerum">
+                <div class="card-body text-center">
+                    <h3>Velas Artesanales</h3>
+                    <p>Elige colores y fragancias únicas hechas a contra pedido para cada ocasión.</p>
+                    <a href="velas.html" class="btn-primary btn-block">Ver Catálogo de Velas</a>
+                </div>
+            </div>
+
+            <div class="service-card" onclick="location.href='cajas.html'" style="cursor: pointer;">
+                <img id="img-site-home-cajas" src="banner_nerum.png" style="object-position: right bottom; height: 240px; object-fit: cover;" alt="Cajitas Artesanales Nerum">
+                <div class="card-body text-center">
+                    <h3>Cajitas Artesanales</h3>
+                    <p>Personaliza tamaño, diseño y tipo para regalos, detalles corporativos o arreglos.</p>
+                    <a href="cajas.html" class="btn-primary btn-block">Ver Catálogo de Cajitas</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="section bg-light container text-center" style="border-radius: 12px; margin-bottom: 60px;">
+        <h2 class="section-title">Encuéntranos y Contáctanos</h2>
+        <p>¿Tienes dudas con un diseño especial o quieres coordinar envíos? Escríbenos directamente:</p>
+        <div class="payment-methods" style="margin-top: 30px;">
+            <a href="https://wa.me/59897132308" target="_blank" class="pay-card">
+                <i class="fa-brands fa-whatsapp" style="color: #25d366; font-size: 2rem;"></i>
+                <span>WhatsApp: 097 132 308</span>
+            </a>
+            <a href="https://instagram.com/nerum.velas" target="_blank" class="pay-card">
+                <i class="fa-brands fa-instagram" style="color: #c13584; font-size: 2rem;"></i>
+                <span>Instagram: @nerum.velas</span>
+            </a>
+            <a href="mailto:nerum.velas@gmail.com" class="pay-card">
+                <i class="fa-solid fa-envelope" style="color: var(--color-primary); font-size: 2rem;"></i>
+                <span>nerum.velas@gmail.com</span>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2026 Nerum - Velas y Cajitas Artesanales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/59897132308?text=Hola,%20me%20gustaría%20información" class="whatsapp-float" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <script src="script.js"></script>
+</body>
+</html>

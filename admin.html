@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Nerum</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-section { background: rgba(255,255,255,0.95); padding: 25px; border-radius: 8px; border: 1px solid #e8dfd3; margin-bottom: 30px; }
+        .admin-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 15px; }
+        .admin-form-group { display: flex; flex-direction: column; gap: 6px; }
+        .admin-form-group label { font-weight: 600; color: var(--color-primary); font-size: 0.9rem; }
+        .admin-form-group input, .admin-form-group select, .admin-form-group textarea { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; width: 100%; background: white; }
+        .table-container { overflow-x: auto; border-radius: 6px; border: 1px solid #eee; background: white; }
+        .table-img-preview { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; }
+        .options-list { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+        .option-tag { background: #f0e6dc; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
+        .option-tag button { background: none; border: none; color: #a94442; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <header class="header-banner-fixed">
+        <div class="banner-container">
+            <img id="img-site-banner" src="banner_nerum.png" alt="Nerum Banner">
+            <nav class="nav-overlay">
+                <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver a la Web</a>
+                <span style="font-weight: bold; color: var(--color-primary);">Panel de Control</span>
+            </nav>
+        </div>
+    </header>
+
+    <section class="container section">
+        <h2 class="section-title">Administración Nerum</h2>
+
+        <div class="admin-section" style="text-align: center;">
+            <h3><i class="fa-solid fa-trash-can"></i> Gestión del Catálogo</h3>
+            <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Haz clic aquí para vaciar por completo el catálogo actual y empezar de cero.</p>
+            <button type="button" onclick="vaciarCatalogoCompleto()" class="btn-primary" style="background-color: #d9534f;">Vaciar Todo el Catálogo</button>
+        </div>
+
+        <div class="admin-section">
+            <h3><i class="fa-solid fa-image"></i> Cambiar Imágenes del Sitio Web</h3>
+            <div class="admin-form-grid">
+                <div class="admin-form-group">
+                    <label>Banner Principal (Cabecera):</label>
+                    <input type="file" id="site-banner-file" accept="image/*">
+                </div>
+                <div class="admin-form-group">
+                    <label>Imagen Portada "Velas":</label>
+                    <input type="file" id="site-velas-file" accept="image/*">
+                </div>
+                <div class="admin-form-group">
+                    <label>Imagen Portada "Cajitas":</label>
+                    <input type="file" id="site-cajas-file" accept="image/*">
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h3><i class="fa-solid fa-fire"></i> Gestión de Desplegables: Velas</h3>
+            <div class="admin-form-grid">
+                <div class="admin-form-group">
+                    <label>Añadir Color (Velas):</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="input-color-vela" placeholder="Ej: Rosa Pastel">
+                        <button type="button" id="btn-add-color-vela" class="btn-primary" style="padding: 10px 15px;"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <div id="tags-color-vela" class="options-list"></div>
+                </div>
+                <div class="admin-form-group">
+                    <label>Añadir Fragancia (Velas):</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="input-fragancia" placeholder="Ej: Vainilla">
+                        <button type="button" id="btn-add-fragancia" class="btn-primary" style="padding: 10px 15px;"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <div id="tags-fragancia" class="options-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h3><i class="fa-solid fa-box"></i> Gestión de Desplegables: Cajitas</h3>
+            <div class="admin-form-grid">
+                <div class="admin-form-group">
+                    <label>Añadir Tamaño (Cajas):</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="input-tamano-caja" placeholder="Ej: Mediana 15x15">
+                        <button type="button" id="btn-add-tamano-caja" class="btn-primary" style="padding: 10px 15px;"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <div id="tags-tamano-caja" class="options-list"></div>
+                </div>
+                <div class="admin-form-group">
+                    <label>Añadir Diseño (Cajas):</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="input-diseno-caja" placeholder="Ej: Geométrico">
+                        <button type="button" id="btn-add-diseno-caja" class="btn-primary" style="padding: 10px 15px;"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <div id="tags-diseno-caja" class="options-list"></div>
+                </div>
+                <div class="admin-form-group">
+                    <label>Añadir Color (Cajas):</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="input-color-caja" placeholder="Ej: Kraft Natural">
+                        <button type="button" id="btn-add-color-caja" class="btn-primary" style="padding: 10px 15px;"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <div id="tags-color-caja" class="options-list"></div>
+                </div>
+                <div class="admin-form-group">
+                    <label>Añadir Tipo de Caja:</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="input-tipo-caja" placeholder="Ej: Tapa con lazo">
+                        <button type="button" id="btn-add-tipo-caja" class="btn-primary" style="padding: 10px 15px;"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <div id="tags-tipo-caja" class="options-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h3 id="form-prod-title"><i class="fa-solid fa-box-open"></i> Añadir Producto al Catálogo</h3>
+            <form id="form-nuevo-producto">
+                <input type="hidden" id="edit-prod-id" value="">
+                <div class="admin-form-grid">
+                    <div class="admin-form-group">
+                        <label>Categoría:</label>
+                        <select id="prod-categoria" required>
+                            <option value="vela">Vela Artesanal</option>
+                            <option value="caja">Cajita Artesanal</option>
+                        </select>
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Nombre del Producto:</label>
+                        <input type="text" id="prod-nombre" placeholder="Ej: Vela Rosa Romántica" required>
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Precio:</label>
+                        <input type="text" id="prod-precio" placeholder="Ej: $350" required>
+                    </div>
+                    <div class="admin-form-group" style="grid-column: 1 / -1;">
+                        <label>Foto (Opcional si estás editando):</label>
+                        <input type="file" id="prod-imagen" accept="image/*">
+                    </div>
+                    <div class="admin-form-group" style="grid-column: 1 / -1;">
+                        <label>Descripción corta:</label>
+                        <textarea id="prod-desc" rows="2" placeholder="Detalles..." required></textarea>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; display:flex; gap:10px;">
+                    <button type="submit" id="btn-save-prod" class="btn-primary"><i class="fa-solid fa-plus"></i> Publicar Producto</button>
+                    <button type="button" id="btn-cancel-edit" class="btn-primary" style="background:#888; display:none;">Cancelar Edición</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="admin-section">
+            <h3>Productos Actuales (Velas y Cajas)</h3>
+            <div class="table-container" id="contenedor-productos-admin"></div>
+        </div>
+
+        <div class="admin-section">
+            <h3><i class="fa-solid fa-clipboard-list"></i> Encargos Recibidos</h3>
+            <div class="table-container" id="contenedor-encargos-admin"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content"><p>&copy; 2026 Nerum - Administración</p></div>
+    </footer>
+
+    <script>
+        function vaciarCatalogoCompleto() {
+            if(confirm("¿Estás seguro de vaciar todo el catálogo? Se borrarán todas las publicaciones actuales y quedará limpio para que subas las tuyas.")) {
+                localStorage.setItem('nerum_catalogo', JSON.stringify([]));
+                alert("¡Catálogo vaciado con éxito!");
+                location.reload();
+            }
+        }
+    </script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            function comprimirImagen(file, callback) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const maxW = 600;
+                        const scale = maxW / img.width;
+                        canvas.width = (img.width > maxW) ? maxW : img.width;
+                        canvas.height = (img.width > maxW) ? (img.height * scale) : img.height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        callback(canvas.toDataURL('image/jpeg', 0.7));
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            document.getElementById('site-banner-file').addEventListener('change', (e) => {
+                if(e.target.files[0]) {
+                    comprimirImagen(e.target.files[0], (dataUrl) => {
+                        localStorage.setItem('nerum_img_banner', dataUrl);
+                        location.reload();
+                    });
+                }
+            });
+
+            document.getElementById('site-velas-file').addEventListener('change', (e) => {
+                if(e.target.files[0]) {
+                    comprimirImagen(e.target.files[0], (dataUrl) => {
+                        localStorage.setItem('nerum_img_velas', dataUrl);
+                        location.reload();
+                    });
+                }
+            });
+
+            document.getElementById('site-cajas-file').addEventListener('change', (e) => {
+                if(e.target.files[0]) {
+                    comprimirImagen(e.target.files[0], (dataUrl) => {
+                        localStorage.setItem('nerum_img_cajas', dataUrl);
+                        location.reload();
+                    });
+                }
+            });
+
+            function obtenerOpciones() {
+                return JSON.parse(localStorage.getItem('nerum_opciones_avanzadas')) || {
+                    coloresVela: ["Blanco Marfil", "Rosa Pastel", "Beige Natural"],
+                    fragancias: ["Vainilla", "Lavanda", "Coco", "Rosa Fresca"],
+                    tamanosCaja: ["Pequeña (10x10)", "Mediana (15x15)", "Grande (20x20)"],
+                    disenosCaja: ["Geométrico", "Minimalista", "Rústico"],
+                    coloresCaja: ["Kraft Natural", "Bordó", "Blanco"],
+                    tiposCaja: ["Tapa con lazo", "Deslizante", "Cofre"]
+                };
+            }
+
+            function guardarOpciones(op) {
+                localStorage.setItem('nerum_opciones_avanzadas', JSON.stringify(op));
+                renderizarOpcionesAdmin();
+            }
+
+            function renderizarOpcionesAdmin() {
+                let op = obtenerOpciones();
+                function mostrarTags(array, containerId, tipo) {
+                    const container = document.getElementById(containerId);
+                    if(!container) return;
+                    container.innerHTML = '';
+                    array.forEach((item, index) => {
+                        container.innerHTML += `<div class="option-tag">${item} <button type="button" onclick="eliminarOpcion('${tipo}', ${index})">&times;</button></div>`;
+                    });
+                }
+                mostrarTags(op.coloresVela, 'tags-color-vela', 'coloresVela');
+                mostrarTags(op.fragancias, 'tags-fragancia', 'fragancias');
+                mostrarTags(op.tamanosCaja, 'tags-tamano-caja', 'tamanosCaja');
+                mostrarTags(op.disenosCaja, 'tags-diseno-caja', 'disenosCaja');
+                mostrarTags(op.coloresCaja, 'tags-color-caja', 'coloresCaja');
+                mostrarTags(op.tiposCaja, 'tags-tipo-caja', 'tiposCaja');
+            }
+
+            window.eliminarOpcion = function(tipo, index) {
+                let op = obtenerOpciones();
+                op[tipo].splice(index, 1);
+                guardarOpciones(op);
+            };
+
+            document.getElementById('btn-add-color-vela').addEventListener('click', () => {
+                let val = document.getElementById('input-color-vela').value.trim();
+                if(!val) return;
+                let op = obtenerOpciones();
+                op.coloresVela.push(val);
+                document.getElementById('input-color-vela').value = '';
+                guardarOpciones(op);
+            });
+
+            document.getElementById('btn-add-fragancia').addEventListener('click', () => {
+                let val = document.getElementById('input-fragancia').value.trim();
+                if(!val) return;
+                let op = obtenerOpciones();
+                op.fragancias.push(val);
+                document.getElementById('input-fragancia').value = '';
+                guardarOpciones(op);
+            });
+
+            document.getElementById('btn-add-tamano-caja').addEventListener('click', () => {
+                let val = document.getElementById('input-tamano-caja').value.trim();
+                if(!val) return;
+                let op = obtenerOpciones();
+                op.tamanosCaja.push(val);
+                document.getElementById('input-tamano-caja').value = '';
+                guardarOpciones(op);
+            });
+
+            document.getElementById('btn-add-diseno-caja').addEventListener('click', () => {
+                let val = document.getElementById('input-diseno-caja').value.trim();
+                if(!val) return;
+                let op = obtenerOpciones();
+                op.disenosCaja.push(val);
+                document.getElementById('input-diseno-caja').value = '';
+                guardarOpciones(op);
+            });
+
+            document.getElementById('btn-add-color-caja').addEventListener('click', () => {
+                let val = document.getElementById('input-color-caja').value.trim();
+                if(!val) return;
+                let op = obtenerOpciones();
+                op.coloresCaja.push(val);
+                document.getElementById('input-color-caja').value = '';
+                guardarOpciones(op);
+            });
+
+            document.getElementById('btn-add-tipo-caja').addEventListener('click', () => {
+                let val = document.getElementById('input-tipo-caja').value.trim();
+                if(!val) return;
+                let op = obtenerOpciones();
+                op.tiposCaja.push(val);
+                document.getElementById('input-tipo-caja').value = '';
+                guardarOpciones(op);
+            });
+
+            renderizarOpcionesAdmin();
+
+            const formProd = document.getElementById('form-nuevo-producto');
+            const contenedorProdAdmin = document.getElementById('contenedor-productos-admin');
+
+            function renderizarProductosAdmin() {
+                let productos = JSON.parse(localStorage.getItem('nerum_catalogo')) || [];
+                if(productos.length === 0) {
+                    contenedorProdAdmin.innerHTML = `<p style="text-align:center; padding: 20px; color:#666;">No hay productos en el catálogo.</p>`;
+                    return;
+                }
+
+                let html = `<table style="width:100%; border-collapse: collapse;">
+                    <thead><tr style="background-color: var(--color-primary); color: white; text-align: left;">
+                        <th style="padding:12px;">Foto</th><th style="padding:12px;">Categoría</th><th style="padding:12px;">Producto</th><th style="padding:12px;">Precio</th><th style="padding:12px; text-align:center;">Acción</th>
+                    </tr></thead><tbody>`;
+
+                productos.forEach((p, index) => {
+                    html += `<tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding:12px;"><img src="${p.imagen}" class="table-img-preview"></td>
+                        <td style="padding:12px; text-transform:uppercase; font-size:0.85rem; font-weight:bold;">${p.categoria}</td>
+                        <td style="padding:12px; font-weight:bold;">${p.nombre}</td>
+                        <td style="padding:12px; color:var(--color-primary); font-weight:bold;">${p.precio}</td>
+                        <td style="padding:12px; text-align:center;">
+                            <button type="button" onclick="editarProducto(${index})" style="background-color: #f0ad4e; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; margin-right:5px;">Editar</button>
+                            <button type="button" onclick="eliminarProducto(${index})" style="background-color: #d9534f; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer;">Eliminar</button>
+                        </td>
+                    </tr>`;
+                });
+                html += `</tbody></table>`;
+                contenedorProdAdmin.innerHTML = html;
+            }
+
+            window.editarProducto = function(index) {
+                let productos = JSON.parse(localStorage.getItem('nerum_catalogo')) || [];
+                let p = productos[index];
+                document.getElementById('edit-prod-id').value = index;
+                document.getElementById('prod-categoria').value = p.categoria;
+                document.getElementById('prod-nombre').value = p.nombre;
+                document.getElementById('prod-precio').value = p.precio;
+                document.getElementById('prod-desc').value = p.desc;
+                
+                document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen"></i> Editar Producto`;
+                document.getElementById('btn-save-prod').innerHTML = `<i class="fa-solid fa-save"></i> Guardar Cambios`;
+                document.getElementById('btn-cancel-edit').style.display = 'inline-block';
+                formProd.scrollIntoView({ behavior: 'smooth' });
+            };
+
+            document.getElementById('btn-cancel-edit').addEventListener('click', () => {
+                formProd.reset();
+                document.getElementById('edit-prod-id').value = '';
+                document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-box-open"></i> Añadir Producto al Catálogo`;
+                document.getElementById('btn-save-prod').innerHTML = `<i class="fa-solid fa-plus"></i> Publicar Producto`;
+                document.getElementById('btn-cancel-edit').style.display = 'none';
+            });
+
+            formProd.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const editIndex = document.getElementById('edit-prod-id').value;
+                const fileInput = document.getElementById('prod-imagen');
+                const file = fileInput.files[0];
+
+                function guardarEnStorage(imagenUrl) {
+                    let productos = JSON.parse(localStorage.getItem('nerum_catalogo')) || [];
+                    const prodData = {
+                        id: editIndex !== "" ? productos[editIndex].id : Date.now(),
+                        categoria: document.getElementById('prod-categoria').value.trim().toLowerCase(),
+                        nombre: document.getElementById('prod-nombre').value,
+                        precio: document.getElementById('prod-precio').value,
+                        desc: document.getElementById('prod-desc').value,
+                        imagen: imagenUrl
+                    };
+
+                    if (editIndex !== "") {
+                        productos[editIndex] = prodData;
+                        alert("¡Producto modificado con éxito!");
+                    } else {
+                        productos.push(prodData);
+                        alert("¡Producto publicado con éxito!");
+                    }
+
+                    localStorage.setItem('nerum_catalogo', JSON.stringify(productos));
+                    document.getElementById('btn-cancel-edit').click();
+                    renderizarProductosAdmin();
+                }
+
+                if (file) {
+                    comprimirImagen(file, (dataUrl) => guardarEnStorage(dataUrl));
+                } else if (editIndex !== "") {
+                    let productos = JSON.parse(localStorage.getItem('nerum_catalogo')) || [];
+                    guardarEnStorage(productos[editIndex].imagen);
+                } else {
+                    alert("Por favor selecciona una imagen para el nuevo producto.");
+                }
+            });
+
+            window.eliminarProducto = function(index) {
+                if(confirm("¿Seguro que deseas eliminar este producto?")) {
+                    let productos = JSON.parse(localStorage.getItem('nerum_catalogo')) || [];
+                    productos.splice(index, 1);
+                    localStorage.setItem('nerum_catalogo', JSON.stringify(productos));
+                    renderizarProductosAdmin();
+                }
+            };
+            renderizarProductosAdmin();
+
+            const contenedorEncargos = document.getElementById('contenedor-encargos-admin');
+            function renderizarEncargos() {
+                let encargos = JSON.parse(localStorage.getItem('nerum_encargos')) || [];
+                if(encargos.length === 0) {
+                    contenedorEncargos.innerHTML = `<p style="text-align:center; padding: 20px; color:#666;">No hay encargos.</p>`;
+                    return;
+                }
+                let html = `<table style="width:100%; border-collapse: collapse; min-width: 600px;">
+                    <thead><tr style="background-color: var(--color-primary); color: white; text-align: left;">
+                        <th style="padding:12px;">Cliente</th><th style="padding:12px;">Producto / Tipo</th><th style="padding:12px;">Detalle Personalización</th><th style="padding:12px;">Cant.</th><th style="padding:12px; text-align:center;">Acción</th>
+                    </tr></thead><tbody>`;
+
+                encargos.forEach((enc, index) => {
+                    html += `<tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding:12px; font-weight:bold;">${enc.nombre}<br><a href="https://wa.me/598${enc.contacto}" target="_blank" style="color:#25d366;"><i class="fa-brands fa-whatsapp"></i> ${enc.contacto}</a></td>
+                        <td style="padding:12px;">${enc.tipo}</td>
+                        <td style="padding:12px; color:#555;">${enc.detalle}</td>
+                        <td style="padding:12px; font-weight:bold; text-align:center;">${enc.cantidad}</td>
+                        <td style="padding:12px; text-align:center;"><button type="button" onclick="eliminarEncargo(${index})" style="background-color: #d9534f; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer;">Completado</button></td>
+                    </tr>`;
+                });
+                html += `</tbody></table>`;
+                contenedorEncargos.innerHTML = html;
+            }
+
+            window.eliminarEncargo = function(index) {
+                let encargos = JSON.parse(localStorage.getItem('nerum_encargos')) || [];
+                encargos.splice(index, 1);
+                localStorage.setItem('nerum_encargos', JSON.stringify(encargos));
+                renderizarEncargos();
+            };
+            renderizarEncargos();
+        });
+    </script>
+</body>
+</html>
