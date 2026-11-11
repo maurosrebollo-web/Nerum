@@ -17,9 +17,37 @@
         .options-list { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
         .option-tag { background: #f0e6dc; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
         .option-tag button { background: none; border: none; color: #a94442; cursor: pointer; font-weight: bold; }
+        
+        /* ESTILO PARA LA VENTANA DE LOGIN */
+        #auth-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(44, 42, 41, 0.9); display: flex; justify-content: center;
+            align-items: center; z-index: 1000;
+        }
+        .auth-box {
+            background: white; padding: 40px; border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 100%; max-width: 400px;
+            text-align: center; border: 1px solid #e8dfd3;
+        }
+        .auth-box h2 { color: var(--color-primary); margin-bottom: 20px; }
     </style>
 </head>
 <body>
+
+    <!-- PANTALLA DE CONTRASEÑA -->
+    <div id="auth-overlay">
+        <div class="auth-box">
+            <h2><i class="fa-solid fa-lock"></i> Acceso Restringido</h2>
+            <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px;">Introduce la contraseña de administración para continuar.</p>
+            <form id="form-login">
+                <div class="form-group">
+                    <input type="password" id="admin-password-input" placeholder="Contraseña" required>
+                </div>
+                <button type="submit" class="btn-primary btn-block">Entrar al Panel</button>
+            </form>
+            <p style="margin-top: 15px;"><a href="index.html" style="color: #666; font-size: 0.85rem; text-decoration: none;"><i class="fa-solid fa-arrow-left"></i> Volver a la web</a></p>
+        </div>
+    </div>
 
     <header class="header-banner-fixed">
         <div class="banner-container">
@@ -35,8 +63,17 @@
         <h2 class="section-title">Administración Nerum</h2>
 
         <div class="admin-section" style="text-align: center;">
+            <h3><i class="fa-solid fa-key"></i> Seguridad del Panel</h3>
+            <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Cambia tu contraseña de administrador si lo deseas.</p>
+            <div style="display: flex; gap: 10px; max-width: 400px; margin: 0 auto;">
+                <input type="password" id="nueva-pass" placeholder="Nueva contraseña" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; flex: 1;">
+                <button type="button" onclick="cambiarPassword()" class="btn-primary">Actualizar Clave</button>
+            </div>
+        </div>
+
+        <div class="admin-section" style="text-align: center;">
             <h3><i class="fa-solid fa-trash-can"></i> Gestión del Catálogo</h3>
-            <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Haz clic aquí para vaciar por completo el catálogo actual y empezar de cero.</p>
+            <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Haz clic aquí para vaciar por completo el catálogo actual.</p>
             <button type="button" onclick="vaciarCatalogoCompleto()" class="btn-primary" style="background-color: #d9534f;">Vaciar Todo el Catálogo</button>
         </div>
 
@@ -139,7 +176,7 @@
                         <input type="text" id="prod-precio" placeholder="Ej: $350" required>
                     </div>
                     <div class="admin-form-group" style="grid-column: 1 / -1;">
-                        <label>Foto (Opcional si estás editando):</label>
+                        <label>Foto:</label>
                         <input type="file" id="prod-imagen" accept="image/*">
                     </div>
                     <div class="admin-form-group" style="grid-column: 1 / -1;">
@@ -170,8 +207,37 @@
     </footer>
 
     <script>
+        // CONTRASEÑA POR DEFECTO: "nerum2026" (Puedes cambiarla desde el panel)
+        if (!localStorage.getItem('nerum_admin_pass')) {
+            localStorage.setItem('nerum_admin_pass', 'nerum2026');
+        }
+
+        document.getElementById('form-login').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const passInput = document.getElementById('admin-password-input').value;
+            const savedPass = localStorage.getItem('nerum_admin_pass');
+
+            if (passInput === savedPass) {
+                document.getElementById('auth-overlay').style.display = 'none';
+            } else {
+                alert('Contraseña incorrecta.');
+                document.getElementById('admin-password-input').value = '';
+            }
+        });
+
+        function cambiarPassword() {
+            const nueva = document.getElementById('nueva-pass').value.trim();
+            if(!nueva) {
+                alert('Por favor escribe una contraseña válida.');
+                return;
+            }
+            localStorage.setItem('nerum_admin_pass', nueva);
+            alert('¡Contraseña actualizada con éxito!');
+            document.getElementById('nueva-pass').value = '';
+        }
+
         function vaciarCatalogoCompleto() {
-            if(confirm("¿Estás seguro de vaciar todo el catálogo? Se borrarán todas las publicaciones actuales y quedará limpio para que subas las tuyas.")) {
+            if(confirm("¿Estás seguro de vaciar todo el catálogo? Se borrarán todas las publicaciones actuales.")) {
                 localStorage.setItem('nerum_catalogo', JSON.stringify([]));
                 alert("¡Catálogo vaciado con éxito!");
                 location.reload();
